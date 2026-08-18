@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跟著小兔學國字——筆順練習</title>
+<style>
+  /* ===== 全域設定 ===== */
+  :root{
+    --bg:#FFF8F0;        /* 暖白背景 */
+    --brand:#5B8EC2;     /* 主色 / 標題藍 */
+    --brand-dark:#3F6E9E;
+    --ink:#4A4034;       /* 深色文字 */
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--bg);}
+  body{
+    font-family:"Comic Sans MS","Chalkboard SE","cwTeXYen","微軟正黑體","Microsoft JhengHei",sans-serif;
+    color:var(--ink);
+    line-height:1.5;
+    -webkit-tap-highlight-color:transparent;
+    padding:24px 16px 60px;
+  }
+
+  /* ===== 頁首 ===== */
+  header{text-align:center;margin:12px auto 28px;max-width:920px;}
+  .bunny{font-size:64px;display:block;line-height:1;margin-bottom:8px;}
+  h1{
+    color:var(--brand);
+    font-size:clamp(28px,5vw,44px);
+    letter-spacing:1px;
+    text-shadow:2px 2px 0 #E8F0F8;
+  }
+  .subtitle{
+    margin-top:12px;
+    font-size:clamp(16px,2.6vw,22px);
+    color:var(--brand-dark);
+    background:#EAF2FA;
+    display:inline-block;
+    padding:8px 20px;
+    border-radius:999px;
+  }
+
+  /* ===== 課別網格 ===== */
+  .grid{
+    max-width:920px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+  }
+  @media(min-width:720px){ .grid{grid-template-columns:repeat(3,1fr);} }
+
+  .lesson-btn{
+    border:none;
+    cursor:pointer;
+    border-radius:28px;
+    padding:20px 16px 22px;
+    text-align:center;
+    color:var(--ink);
+    box-shadow:0 6px 0 rgba(0,0,0,.10), 0 8px 16px rgba(0,0,0,.06);
+    transition:transform .12s ease, box-shadow .12s ease;
+    font-family:inherit;
+    text-decoration:none;
+    display:block;
+  }
+  .lesson-btn:active{ transform:translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,.10), 0 4px 8px rgba(0,0,0,.06); }
+  .lesson-btn .num{
+    display:inline-block;
+    background:rgba(255,255,255,.65);
+    border-radius:999px;
+    padding:4px 14px;
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:10px;
+  }
+  .lesson-btn .name{
+    display:block;
+    font-size:clamp(22px,3.4vw,30px);
+    font-weight:bold;
+    letter-spacing:2px;
+  }
+  .lesson-btn .go{
+    display:inline-block;
+    margin-top:12px;
+    background:rgba(255,255,255,.8);
+    color:var(--brand-dark);
+    border-radius:999px;
+    padding:6px 16px;
+    font-size:15px;
+    font-weight:bold;
+  }
+
+  /* ===== 說明卡 ===== */
+  .intro{
+    max-width:760px;
+    margin:0 auto 28px;
+    background:#EAF2FA;
+    border-radius:22px;
+    padding:18px 24px;
+    color:var(--brand-dark);
+    font-size:clamp(15px,2.2vw,17px);
+    line-height:1.75;
+  }
+  .intro p{margin:0;}
+  .intro p + p{margin-top:12px;}
+  .intro strong{color:var(--brand-dark);}
+  .intro .book{color:var(--brand);font-weight:bold;}
+
+  footer{
+    text-align:center;
+    margin-top:36px;
+    font-size:clamp(15px,2.2vw,17px);
+    color:#B9A98F;
+  }
+  footer a{
+    color:var(--brand);
+    font-weight:bold;
+    text-decoration:none;
+  }
+  footer a:hover{ text-decoration:underline; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="bunny">🐰</span>
+  <h1>《跟著小兔學國字》筆順練習</h1>
+</header>
+
+<!-- 說明卡 -->
+<section class="intro">
+  <p>這是專為<span class="book">《跟著小兔學國字》</span>設計的線上筆順練習，按照每一課的生字順序排列，每個字練寫兩次。如果覺得兩次太多，寫完第一次可以直接跳過喔！</p>
+  <p>用平板打開最方便，小朋友可以直接用手指寫 ✍️</p>
+</section>
+
+<!-- 課別選單 -->
+<main id="lesson-view" class="grid"></main>
+
+<footer>有任何問題歡迎到粉專<a href="https://www.facebook.com/mamahowma" target="_blank" rel="noopener">「媽媽好忙。媽媽好嗎？」</a>私訊我！</footer>
+
+<script>
+/* ===== 生字資料 ===== */
+const LESSONS = [
+  {lesson:1, title:"這是我",   chars:["一","這","是","我","也","的","媽"]},
+  {lesson:2, title:"大的小的", chars:["二","個","大","爸","小","不"]},
+  {lesson:3, title:"上上下下", chars:["三","你","看","上","來","了","下"]},
+  {lesson:4, title:"我愛我的家", chars:["四","家","有","妹","弟","愛","和"]},
+  {lesson:5, title:"我愛玩",   chars:["五","很","起","玩","還","笑","哭"]},
+  {lesson:6, title:"比大小",   chars:["六","比","叫","哥","姐","他","她"]},
+  {lesson:7, title:"出去玩",   chars:["七","天","出","去","跑","開","心"]},
+  {lesson:8, title:"看到了",   chars:["八","鳥","到","地","草","們","在"]},
+  {lesson:9, title:"好多人",   chars:["九","裡","人","好","多","車","子"]},
+  {lesson:10,title:"吃水果",   chars:["十","帶","水","果","吃","麼","園"]}
+];
+
+/* 課號國字 */
+const CN_NUM = ["一","二","三","四","五","六","七","八","九","十"];
+
+/* 每課的粉彩色 */
+const COLORS = [
+  "#FFB5BA", // 1 粉紅
+  "#FFD8A8", // 2 蜜桃橘
+  "#FFF0A6", // 3 鵝黃
+  "#C8E6C9", // 4 嫩綠
+  "#B5EAD7", // 5 薄荷
+  "#B5D8EB", // 6 天空藍
+  "#C7CBEC", // 7 薰衣草紫
+  "#E0BBE4", // 8 紫丁香
+  "#F8C8DC", // 9 玫瑰粉
+  "#FFDAC1"  // 10 杏桃
+];
+
+/* 依教育部筆順網格式組出「整課、每字兩次」的練習連結
+   ID  = 第一個字的 Unicode 十進位碼位
+   WORD= 整課生字，每個字重複兩次串起來             */
+function lessonURL(chars){
+  const doubled = chars.map(c => c + c).join("");   // 每字兩次：一一這這是是…
+  const id = doubled.codePointAt(0);                // 第一個字的碼位
+  return "https://stroke-order.learningweb.moe.edu.tw/dictView.jsp"
+       + "?ID=" + id
+       + "&WORD=" + encodeURIComponent(doubled)
+       + "&ID2=1&TP=0";
+}
+
+/* ===== 建立課別按鈕（點擊開啟整課練習） ===== */
+const lessonView = document.getElementById("lesson-view");
+LESSONS.forEach((L, i) => {
+  const a = document.createElement("a");
+  a.className = "lesson-btn";
+  a.style.background = COLORS[i];
+  a.href = lessonURL(L.chars);
+  a.target = "_blank";
+  a.rel = "noopener";
+  a.innerHTML =
+      `<span class="num">第${CN_NUM[i]}課</span>` +
+      `<span class="name">${L.title}</span>` +
+      `<span class="go">▶ 筆順練習</span>`;
+  lessonView.appendChild(a);
+});
+</script>
+</body>
+</html>
