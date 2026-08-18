@@ -171,16 +171,17 @@ const COLORS = [
   "#B389D3"  // 10 薰衣草紫
 ];
 
-/* 依教育部筆順網格式組出「整課、每字兩次」的練習連結
+/* 依教育部筆順網格式組出整課練習連結
    ID  = 第一個字的 Unicode 十進位碼位
-   WORD= 整課生字，每個字重複兩次串起來             */
+   WORD= 整課生字串起來
+   ID2 = 練習次數（設 2 → 每個字練兩次）           */
 function lessonURL(chars){
-  const doubled = chars.map(c => c + c).join("");   // 每字兩次：一一這這是是…
-  const id = doubled.codePointAt(0);                // 第一個字的碼位
+  const word = chars.join("");        // 整課生字：一這是我也的媽
+  const id = word.codePointAt(0);     // 第一個字的碼位
   return "https://stroke-order.learningweb.moe.edu.tw/dictView.jsp"
        + "?ID=" + id
-       + "&WORD=" + encodeURIComponent(doubled)
-       + "&ID2=1&TP=0";
+       + "&WORD=" + encodeURIComponent(word)
+       + "&ID2=2&TP=0";
 }
 
 /* ===== 建立課別按鈕（點擊開啟整課練習） ===== */
