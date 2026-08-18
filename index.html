@@ -130,7 +130,7 @@
 
 <!-- 說明卡 -->
 <section class="intro">
-  <p>這是專為<span class="book">《跟著小兔學國字》</span>設計的線上筆順練習，按照每一課的生字順序排列，每個字練寫兩次。如果覺得兩次太多，寫完第一次可以直接跳過喔！</p>
+  <p>這是專為<span class="book">《跟著小兔學國字》</span>設計的線上筆順練習，按照每一課的生字順序排列。</p>
   <p>用平板打開最方便，小朋友可以直接用手指寫 ✍️</p>
 </section>
 
@@ -174,14 +174,14 @@ const COLORS = [
 /* 依教育部筆順網格式組出整課練習連結
    ID  = 第一個字的 Unicode 十進位碼位
    WORD= 整課生字串起來
-   ID2 = 練習次數（設 2 → 每個字練兩次）           */
+   ID2 = 練習次數（設 1 → 每個字練一次）           */
 function lessonURL(chars){
   const word = chars.join("");        // 整課生字：一這是我也的媽
   const id = word.codePointAt(0);     // 第一個字的碼位
   return "https://stroke-order.learningweb.moe.edu.tw/dictView.jsp"
        + "?ID=" + id
        + "&WORD=" + encodeURIComponent(word)
-       + "&ID2=2&TP=0";
+       + "&ID2=1&TP=0";
 }
 
 /* ===== 建立課別按鈕（點擊開啟整課練習） ===== */
